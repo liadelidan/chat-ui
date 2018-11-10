@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+
+
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  </head>
+  <body>
+      <div id="error-msg" style="
+      width: 100vw;
+      height: 100vh;
+      z-index: 2000;
+      background-color: #2185d0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: white;
+      text-align: center;
+      padding-top: 30px;
+      display:none;
+  "><h1>Please enter your name!</h1>
+  <h3>Refreshing in 5 seconds.</h3></div>
+
+      <h3 class="ui dividing header" style="
+      text-align: center;
+      padding: 20px;
+      background-color: #2185d0;
+      color: white;
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      border: 0;
+      z-index: 5;
+  ">Nice Chat</h3>
+<div class="ui comments" id="msgs-container" style="    min-width: 100vw; margin-top:80px;     padding-bottom: 100px;">
+<br><br><br><br>
+
+
+</div>
+<div class="ui reply form"  style="   width: 100%;
+  position: fixed;
+  bottom: 0;">
+      <input type="text" name="text" id="inp_text">
+    <div onclick="_send_message();" class="ui button blue" style=" width: 100%;">
+      Send
+    </div>
+  </div>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+      var name, image;
+      var name = prompt("Please enter your name", "");
+
+      if (name == null || name == "" || name == "null") {
+        $("#error-msg").show();
+        setTimeout(function(){
+          window.location.reload(1);
+        }, 5000);
+      } else {
+        //joined the lobby
+        $("#error-msg").remove();
+        image = "https://api.adorable.io/avatars/285/"+name+Math.floor(Math.random() * Math.floor(123456789))+".png";
+      }
+    function add_message(_image, _name, _msg, _time)
+    {
+
+
+if (_image == image)
+{
+  $("#msgs-container").append('<div class="comment" style="    padding-left: 20px;\
+  padding-right: 20px; padding-bottom: 7px;         background-color: #2185d0;">\
+  <a class="avatar">\
+  <img src="'+_image+'">\
+  </a>\
+  <div class="content">\
+  <a class="author" style="    color: white;">'+_name+'</a>\
+  <div class="metadata">\
+    <span class="date">'+_time+'</span>\
+  </div>\
+  <div class="text">\
+    '+_msg+'\
+  </div>\
+  </div>\
+  </div>');
+}
+else {
+  $("#msgs-container").append('\
+  \<div class="comment" style="    padding-left: 20px;\
+padding-right: 20px; padding-bottom: 7px;">\
+<a class="avatar">\
+  <img src="'+_image+'">\
+</a>\
+<div class="content">\
+  <a class="author">'+_name+'</a>\
+  <div class="metadata">\
+    <span class="date">'+_time+'</span>\
+  </div>\
+  <div class="text">\
+   '+_msg+'\
+  </div>\
+</div>\
+</div>');
+}
+window.scrollTo(0,document.body.scrollHeight);
+    }
+
+    function system_message(_msg, _time)
+    {
+      $("#msgs-container").append('<div class="comment" style="    padding-left: 20px;\
+  padding-right: 20px; padding-bottom: 7px;">\
+    \
+    <div class="content">\
+      <a class="author">Chat Bot</a>\
+      <div class="metadata">\
+        <span class="date">'+_time+'</span>\
+      </div>\
+      <div class="text">\
+        '+_msg+'\
+      </div>\
+    </div>\
+  </div>');
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
+function _send_message()
+{
+  if ($('#inp_text').val() != "")
+  {
+  send_message($('#inp_text').val());
+  $("#inp_text").val("");
+  }
+}
+
+window.onload = function() {
+    document.getElementById('inp_text').onkeypress = function searchKeyPress(event) {
+       if (event.keyCode == 13) {
+           _send_message();
+       }
+   };
+ };
+    </script>
+
+  </body>
+</html>
